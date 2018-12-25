@@ -17,6 +17,12 @@ proc initTurtlecoind*(host = "localhost", port = "11898"): Daemon =
     turtle.port = port
     return turtle
 
+# daemonGet - GETs a command to Turtlecoind and returns the json response
+method daemonGet(dd: Daemon, methodd: string): JsonNode {.base.} =
+    let resp = dd.client.request("http://" & dd.host & ":" & dd.port & "/" & methodd,
+                                 httpMethod = HttpGet)
+    return parseJSON(resp.body)
+
 
 #[
     daemonPost - posts a command to Turtlecoind and returns the json response
@@ -114,3 +120,26 @@ method getTransaction*(dd: Daemon, blockHash: string): JsonNode {.base.} =
 method getTransactionPool*(dd: Daemon): JsonNode {.base.} =
     return dd.doRequest("f_on_transactions_pool_json", "{}")
 
+# getHeight - returns the height of the daemon and network
+method getHeight(dd: Daemon): JsonNode {.base.} =
+    return dd.daemonGet("getheight")
+
+
+# getInfo - returns information related to the network and daemon connection
+method getInfo(dd: Daemon): JsonNode {.base.} =
+    return dd.daemonGet("getinfo")
+
+
+# getTransactions - returns list of missed transactions
+method getTransactions(dd: Daemon): JsonNode {.base.} =
+    return dd.daemonGet("gettransactions")
+
+
+# getPeers - returns list of peers connected to the daemon
+method getPeers(dd: Daemon): JsonNode {.base.} =
+    return dd.daemonGet("getpeers")
+
+
+# feeInfo - returns information about the node fee
+method feeInfo(dd: Daemon): JsonNode {.base.} =
+    return dd.daemonGet("feeinfo")
