@@ -33,8 +33,6 @@ proc initWallet*(host="127.0.0.1", port="8070", password: string): Wallet =
     data -> rpc payload
 ]#
 method walletPost(w: Wallet, data: string): JsonNode {.base.} =
-    echo data
-    discard readChar(stdin)
     let resp = w.client.request("http://" & w.host & ":" & w.port & "/json_rpc",
                                  httpMethod = HttpPost,
                                  body = data)
