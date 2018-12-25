@@ -23,7 +23,6 @@ proc initTurtlecoind*(host = "localhost", port = "11898"): Daemon =
     data -> rpc payload
 ]#
 method daemonPost(dd: Daemon, data: string): JsonNode {.base.} =
-    echo data
     let resp = dd.client.request("http://" & dd.host & ":" & dd.port & "/json_rpc",
                                  httpMethod = HttpPost,
                                  body = data)
