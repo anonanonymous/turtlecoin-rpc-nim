@@ -1,7 +1,7 @@
-include "src/walletd.nim", "src/turtlecoind.nim"
+import json, walletd, turtlecoind
 
-let wallet = initWallet(password = "<your password>")
-let turtle_daemon = initTurtlecoind(host = "turtlenode.online")
+let wallet = initWallet(password = "<password>")
+let turtle_daemon = initTurtlecoind(host = "val.turtlenode.online")
 
-echo wallet.getStatus
-echo turtle_daemon.getCurrencyId
+echo(wallet.getStatus)
+echo(turtle_daemon.getCurrencyId)
